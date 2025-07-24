@@ -35,7 +35,7 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         user.getUsername(),
-                        user.getPasswordHash()
+                        user.getPassword()
                 )
         );
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -46,7 +46,7 @@ public class AuthController {
     public String registerUser(@RequestBody userSignupDto user) {
         // Receiving a Dto for signup
 
-        if (userRepository.existsByUserName(user.getUsername())) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             return "Error: Username is already taken!";
         }
 
@@ -54,7 +54,7 @@ public class AuthController {
         User newUser = new User();
         newUser.setUsername(user.getUsername());
         newUser.setEmail(user.getEmail());
-        newUser.setPasswordHash(user.getPasswordHash());
+        newUser.setPasswordHash(user.getPassword());
         newUser.setFullName(user.getFullName());
         // TODO: Set Salt hash
 

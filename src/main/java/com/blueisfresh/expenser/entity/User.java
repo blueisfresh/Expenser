@@ -33,11 +33,6 @@ public class User {
     @Column(name = "password_hash", nullable = false, length = 128)
     private String passwordHash;
 
-    @NotBlank(message = "Salt hash cannot be blank")
-    @Size(min = 20, max = 255, message = "Salt hash must be between 20 and 255 characters")
-    @Column(name = "password_salt", nullable = false, length = 255)
-    private String saltHash;
-
     @NotBlank(message = "Full name cannot be blank")
     @Size(min = 2, max = 100, message = "Full name must be between 2 and 100 characters")
     @Column(name = "full_name", length = 100)
