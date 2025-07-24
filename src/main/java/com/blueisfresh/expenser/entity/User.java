@@ -27,8 +27,13 @@ public class User {
     @NotBlank(message = "Password cannot be blank")
     @Size(min = 8, max = 128, message = "Password must be between 8 and 128 characters")
     // TODO: Password Complexity validator
-    @Column(name = "password", nullable = false, length = 128)
-    private String password;
+    @Column(name = "password_hash", nullable = false, length = 128)
+    private String passwordHash;
+
+    @NotBlank(message = "Salt hash cannot be blank")
+    @Size(min = 20, max = 255, message = "Salt hash must be between 20 and 255 characters")
+    @Column(name = "password_salt", nullable = false, length = 255)
+    private String saltHash;
 
     @NotBlank(message = "Full name cannot be blank")
     @Size(min = 2, max = 100, message = "Full name must be between 2 and 100 characters")
