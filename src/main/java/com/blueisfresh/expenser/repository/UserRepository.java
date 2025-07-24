@@ -1,10 +1,11 @@
 package com.blueisfresh.expenser.repository;
 
 import com.blueisfresh.expenser.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository {
+public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
 
     boolean existsByUserName(String username);

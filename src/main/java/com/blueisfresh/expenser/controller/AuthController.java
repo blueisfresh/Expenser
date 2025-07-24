@@ -1,5 +1,7 @@
 package com.blueisfresh.expenser.controller;
 
+import com.blueisfresh.expenser.dto.userSigninDto;
+import com.blueisfresh.expenser.dto.userSignupDto;
 import com.blueisfresh.expenser.entity.User;
 import com.blueisfresh.expenser.repository.UserRepository;
 import com.blueisfresh.expenser.security.JwtUtil;
@@ -27,7 +29,9 @@ public class AuthController {
     JwtUtil jwtUtils;
 
     @PostMapping("/signin")
-    public String authenticateUser(@RequestBody User user) {
+    public String authenticateUser(@RequestBody userSigninDto user) {
+        // Receiving a Dto for signup
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         user.getUsername(),
@@ -37,17 +41,23 @@ public class AuthController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return jwtUtils.generateToken(userDetails.getUsername());
     }
+
     @PostMapping("/signup")
-    public String registerUser(@RequestBody User user) {
+    public String registerUser(@RequestBody userSignupDto user) {
+        // Receiving a Dto for signup
+
         if (userRepository.existsByUserName(user.getUsername())) {
             return "Error: Username is already taken!";
         }
-        // Create new user's account
-        User newUser = new User(
-                null,
-                user.getUsername(),
-                encoder.encode(user.getPasswordHash())
-        );
+
+        // Map Dto into a User entity
+        User newUser = new User();
+        newUser.setUsername(user.getUsername());
+        newUser.setEmail(user.getEmail());
+        newUser.setPasswordHash(user.getPasswordHash());
+        newUser.setFullName(user.getFullName());
+        // TODO: Set Salt hash
+
         userRepository.save(newUser);
         return "User registered successfully!";
     }
