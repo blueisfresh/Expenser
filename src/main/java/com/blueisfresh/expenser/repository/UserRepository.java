@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository {
-    User findByUserName(String username);
+    User findByUsername(String username);
 
     boolean existsByUserName(String username);
 
