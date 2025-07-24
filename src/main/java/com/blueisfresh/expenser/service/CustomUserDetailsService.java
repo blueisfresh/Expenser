@@ -11,14 +11,11 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 @Service
+// Handles loading user data from your persistence layer (db).
 public class CustomUserDetailsService implements UserDetailsService{
 
-    private final UserRepository userRepository;
-
     @Autowired
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

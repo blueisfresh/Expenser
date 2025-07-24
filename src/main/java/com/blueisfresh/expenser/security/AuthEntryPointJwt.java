@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
+// Handles unauthenticated access errors specifically.
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
     @Override

@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
+// Handles JWT token creation and validation.
 public class JwtUtil {
 
     @Value("${jwt.secret}")

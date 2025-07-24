@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+// Orchestrates all these pieces and defines the overall security policy.
 public class WebSecurityConfig {
     @Autowired
     public CustomUserDetailsService userDetailsService;

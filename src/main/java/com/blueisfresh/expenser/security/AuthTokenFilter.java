@@ -16,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
+// Acts as the interceptor for JWTs on every request.
 public class AuthTokenFilter extends OncePerRequestFilter {
 
     @Autowired

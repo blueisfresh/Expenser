@@ -1,1 +1,2 @@
 - Password validation service
+- updated, created columns in each table
