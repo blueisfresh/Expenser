@@ -1,5 +1,6 @@
 package com.blueisfresh.expenser.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -7,6 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -45,4 +48,14 @@ public class User {
     @Size(max = 100, message = "Email must not exceed 100 characters")
     @Column(name = "email", nullable = false, length = 100, unique = true)
     private String email;
+
+    // One User can have many Expenses
+    @JsonBackReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Expense> expenses;
+
+    // One User can have many Categories
+    @JsonBackReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Category> categories;
 }
