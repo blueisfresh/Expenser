@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 
 @Entity
@@ -39,6 +40,26 @@ public class Expense {
     @Size(max = 500, message = "Description must not exceed 500 characters")
     @Column(name = "description", length = 500)
     private String description;
+
+    @NotNull(message = "Creation timestamp cannot be null")
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
+
+    @NotNull(message = "Update timestamp cannot be null")
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt;
+
+    // JPA Lifecycle Callbacks
+    @PrePersist // Called before entity is first persisted
+    protected void onCreate() {
+        this.createdAt = Instant.now();
+        this.updatedAt = Instant.now(); // Updated on creation as well
+    }
+
+    @PreUpdate // Called before entity is updated
+    protected void onUpdate() {
+        this.updatedAt = Instant.now(); // Update the timestamp on every update
+    }
 
     // Many Expenses can have one Category
     @JsonManagedReference

@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.util.List;
 
 @Entity
@@ -43,6 +45,26 @@ public class User {
     @Size(max = 100, message = "Email must not exceed 100 characters")
     @Column(name = "email", nullable = false, length = 100, unique = true)
     private String email;
+
+    @NotNull(message = "Creation timestamp cannot be null")
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
+
+    @NotNull(message = "Update timestamp cannot be null")
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt;
+
+    // JPA Lifecycle Callbacks
+    @PrePersist // Called before entity is first persisted
+    protected void onCreate() {
+        this.createdAt = Instant.now();
+        this.updatedAt = Instant.now(); // Updated on creation as well
+    }
+
+    @PreUpdate // Called before entity is updated
+    protected void onUpdate() {
+        this.updatedAt = Instant.now(); // Update the timestamp on every update
+    }
 
     // One User can have many Expenses
     @JsonBackReference
