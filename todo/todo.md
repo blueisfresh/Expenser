@@ -1,1 +1,1 @@
-- auth /me endpoint to get all user information
+- clean & comment the project

@@ -1,6 +1,6 @@
 # Expenser API
 
-This is my Expenser API, built using Spring Boot. This project focuses on providing a secure and robust backend for tracking personal expenses.
+This is my Expenser API, built using Spring Boot. This project focuses on providing a secure and robust backend for tracking personal expenses. It fulfills the requirements outlined in the [Expense Tracker API project on roadmap.sh](https://roadmap.sh/projects/expense-tracker-api).
 
 ---
 
