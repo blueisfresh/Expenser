@@ -43,20 +43,19 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public String registerUser(@RequestBody userSignupDto user) {
+    public String registerUser(@RequestBody userSignupDto userSignupRequest) {
         // Receiving a Dto for signup
 
-        if (userRepository.existsByUsername(user.getUsername())) {
+        if (userRepository.existsByUsername(userSignupRequest.getUsername())) {
             return "Error: Username is already taken!";
         }
 
         // Map Dto into a User entity
         User newUser = new User();
-        newUser.setUsername(user.getUsername());
-        newUser.setEmail(user.getEmail());
-        newUser.setPasswordHash(user.getPassword());
-        newUser.setFullName(user.getFullName());
-        // TODO: Set Salt hash
+        newUser.setUsername(userSignupRequest.getUsername());
+        newUser.setEmail(userSignupRequest.getEmail());
+        newUser.setPasswordHash(encoder.encode(userSignupRequest.getPassword()));
+        newUser.setFullName(userSignupRequest.getFullName());
 
         userRepository.save(newUser);
         return "User registered successfully!";
