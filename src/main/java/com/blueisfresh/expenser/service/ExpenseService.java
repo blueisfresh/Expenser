@@ -121,6 +121,15 @@ public class ExpenseService {
         return expense;
     }
 
+    public List<Expense> getExpenseByCategory(String categoryName) {
+// Find the current authenticated user
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Authenticated user '" + username + "' not found in database."));
+
+        return expenseRepository.findByUserIdAndCategoryNameIgnoreCase(currentUser.getId(), categoryName);
+    }
+
     @Transactional(readOnly = true)
     public List<Expense> getAllExpenses() {
 // Only retrieve expenses from the current user

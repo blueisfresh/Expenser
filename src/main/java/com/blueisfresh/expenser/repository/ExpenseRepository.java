@@ -22,4 +22,6 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     List<Expense> findByUserId(Long id);
 
     List<Expense> findByUserIdAndTitleContainingIgnoreCase(Long id, String searchTerm);
+
+    List<Expense> findByUserIdAndCategoryNameIgnoreCase(Long userId, String categoryName);
 }

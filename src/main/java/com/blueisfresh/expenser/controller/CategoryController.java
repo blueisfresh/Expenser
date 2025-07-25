@@ -40,13 +40,13 @@ public class CategoryController {
     public ResponseEntity<Category> saveCategory(@Valid @RequestBody categoryCreateDto category) {
         Category createdCategory = categoryService.createCategory((category));
         // 201 successful creation
-        return new ResponseEntity<>(categoryService.getById(createdCategory.getId()).orElseThrow(), HttpStatus.CREATED);
+        return new ResponseEntity<>(categoryService.getCategory(createdCategory.getId()).orElseThrow(), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable Long id, @Valid @RequestBody categoryCreateDto category) {
         Category updatedCategory = categoryService.updateCategory(id, category);
-        return ResponseEntity.ok(categoryService.getById(updatedCategory.getId()).orElseThrow());
+        return ResponseEntity.ok(categoryService.getCategory(updatedCategory.getId()).orElseThrow());
     }
 
     @DeleteMapping("/{id}")

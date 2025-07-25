@@ -53,10 +53,8 @@ public class WebSecurityConfig {
                         authorizeRequests
                                 .requestMatchers(
                                         "/api/auth/**",
-                                        "/v3/api-docs/**",
-                                        "/swagger-ui/**",
-                                        "/swagger-ui.html",
-                                        "/webjars/**"
+                                        "/api/category/**",
+                                        "/api/expense/**"
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 );
