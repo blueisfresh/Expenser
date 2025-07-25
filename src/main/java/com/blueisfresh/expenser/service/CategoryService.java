@@ -22,10 +22,9 @@ public class CategoryService {
     }
 
     public Category updateCategory(Long categoryId, categoryCreateDto categoryUpdateDtoRequest) {
-
         // find existing Category
         Category existingCategory = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new ResourceNotFoundException("Blog with ID " + categoryId + " not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("Category with ID " + categoryId + " not found."));
 
         existingCategory.setName(categoryUpdateDtoRequest.getName());
         return categoryRepository.save(existingCategory);
@@ -36,11 +35,11 @@ public class CategoryService {
         if (categoryRepository.existsById(categoryId)) {
             categoryRepository.deleteById(categoryId);
         } else {
-            throw new ResourceNotFoundException("Blog with ID " + categoryId + " not found for deletion.");
+            throw new ResourceNotFoundException("Category with ID " + categoryId + " not found for deletion.");
         }
     }
 
-    public Optional<Category> getById(Long categoryId) {
+    public Optional<Category> getCategory(Long categoryId) {
         return categoryRepository.findById(categoryId);
     }
 
@@ -50,6 +49,6 @@ public class CategoryService {
 
     // Search Term
     public List<Category> searchCategories(String searchTerm) {
-        return categoryRepository.findBlogsBySearchTerm(searchTerm);
+        return categoryRepository.findCategoriesBySearchTermBy(searchTerm);
     }
 }

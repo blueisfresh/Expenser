@@ -1,3 +1,2 @@
-- solve swagger bug with v3 docs
 - Expense Controller
 - auth /me endpoint to get all user information

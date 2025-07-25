@@ -12,5 +12,5 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     // Custom Search Term Method
     @Query("SELECT b FROM Category b WHERE " +
             "LOWER(b.name) LIKE LOWER(CONCAT('%', :term, '%'))")
-    List<Category> findBlogsBySearchTerm(@Param("term") String term);
+    List<Category> findCategoriesBySearchTermBy(@Param("term") String term);
 }
