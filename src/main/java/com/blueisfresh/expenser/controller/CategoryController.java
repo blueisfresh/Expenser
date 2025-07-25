@@ -3,7 +3,7 @@ package com.blueisfresh.expenser.controller;
 import com.blueisfresh.expenser.dto.categoryCreateDto;
 import com.blueisfresh.expenser.entity.Category;
 import com.blueisfresh.expenser.service.CategoryService;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
