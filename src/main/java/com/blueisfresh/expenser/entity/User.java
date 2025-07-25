@@ -29,10 +29,7 @@ public class User {
     @Column(name = "username", nullable = false, length = 64, unique = true)
     private String username;
 
-    @NotBlank(message = "Password cannot be blank")
-    @Size(min = 8, max = 128, message = "Password must be between 8 and 128 characters")
-    // TODO: Password Complexity validator
-    @Column(name = "password_hash", nullable = false, length = 128)
+    @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
     @NotBlank(message = "Full name cannot be blank")

@@ -3,6 +3,7 @@ package com.blueisfresh.expenser.dto;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,10 @@ public class userSignupDto {
 
     @NotBlank(message = "Password cannot be blank")
     @Size(min = 8, max = 128, message = "Password must be between 8 and 128 characters")
+    @Pattern(
+            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*-+=])(?=\\S+$).{8,128}$",
+            message = "Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character (!@#$%^&*-+=), and no whitespace, and be between 8 and 128 characters."
+    )
     private String password;
 
     @NotBlank(message = "Full name cannot be blank")

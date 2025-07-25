@@ -5,6 +5,7 @@ import com.blueisfresh.expenser.dto.userSignupDto;
 import com.blueisfresh.expenser.entity.User;
 import com.blueisfresh.expenser.repository.UserRepository;
 import com.blueisfresh.expenser.security.JwtUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
@@ -29,7 +30,7 @@ public class AuthController {
     JwtUtil jwtUtils;
 
     @PostMapping("/signin")
-    public String authenticateUser(@RequestBody userSigninDto user) {
+    public String authenticateUser(@Valid @RequestBody userSigninDto user) {
         // Receiving a Dto for signup
 
         Authentication authentication = authenticationManager.authenticate(
@@ -43,7 +44,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public String registerUser(@RequestBody userSignupDto userSignupRequest) {
+    public String registerUser(@Valid @RequestBody userSignupDto userSignupRequest) {
         // Receiving a Dto for signup
 
         if (userRepository.existsByUsername(userSignupRequest.getUsername())) {

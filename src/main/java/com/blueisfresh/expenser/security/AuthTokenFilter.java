@@ -31,23 +31,35 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        try {
-            String jwt = parseJwt(request);
-            if (jwt != null && jwtUtil.validateJwtToken(jwt)) {
-                String username = jwtUtil.getUsernameFromToken(jwt);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities()
-                        );
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = parseJwt(request);
+
+        // Only proceed with JWT validation if a JWT token is actually present
+        if (jwt != null) {
+            try {
+                if (jwtUtil.validateJwtToken(jwt)) {
+                    String username = jwtUtil.getUsernameFromToken(jwt);
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities()
+                            );
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            } catch (Exception e) { // This catch now only applies if a JWT was present and invalid
+                // Log the error for invalid JWTs. Do NOT rethrow or send 401 directly here.
+                // Spring Security's AuthenticationEntryPoint will handle the 401 for unauthorized access
+                // or you can log.
+                System.out.println("Invalid JWT processing error: " + e.getMessage());
+                // Crucially, don't throw AuthenticationException from here for *this* catch.
+                // Let Spring Security's normal flow handle unauthorized.
             }
-        } catch (Exception e) {
-            System.out.println("Cannot set user authentication: " + e);
         }
+        // Always continue the filter chain, allowing subsequent filters (like Spring Security's
+        // AuthorizationFilter or Spring MVC's validation) to do their job.
         filterChain.doFilter(request, response);
     }
 
