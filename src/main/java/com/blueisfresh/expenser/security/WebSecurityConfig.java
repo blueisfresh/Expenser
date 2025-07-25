@@ -53,6 +53,7 @@ public class WebSecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/api/auth/**", "/v3/api-docs/**",
                                         "/swagger-ui/**",
+                                        "/api/test/all",
                                         "/swagger-ui.html",
                                         "/webjars/**").permitAll()
                                 .anyRequest().authenticated()
