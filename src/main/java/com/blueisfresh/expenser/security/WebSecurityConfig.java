@@ -51,11 +51,13 @@ public class WebSecurityConfig {
                 )
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/api/auth/**", "/v3/api-docs/**",
+                                .requestMatchers(
+                                        "/api/auth/**",
+                                        "/v3/api-docs/**", // Once is enough
                                         "/swagger-ui/**",
-                                        "/api/test/all",
                                         "/swagger-ui.html",
-                                        "/webjars/**").permitAll()
+                                        "/webjars/**"
+                                ).permitAll()
                                 .anyRequest().authenticated()
                 );
         // Add the JWT Token filter before the UsernamePasswordAuthenticationFilter
