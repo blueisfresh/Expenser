@@ -1,5 +1,120 @@
-### GET request to example server
-GET https://examples.http-client.intellij.net/get
-    ?generated-in=IntelliJ IDEA
+### Register a New User
+POST http://localhost:8080/api/auth/signup
+Content-Type: application/json
 
-###
+{
+  "username": "testuser_jwt",
+  "password": "SecureP@ss1",
+  "fullName": "Test User JWT",
+  "email": "testuser.jwt@example.com"
+}
+
+### Sign In User and Get JWT
+# This request will return a JWT token string if successful.
+# Copy the token from the response to use in subsequent authorized requests.
+POST http://localhost:8080/api/auth/signin
+Content-Type: application/json
+
+{
+  "username": "testuser_jwt",
+  "password": "SecureP@ss1"
+}
+
+> {%
+    // This script runs AFTER the request receives a response.
+    // It checks if the response is 200 OK and then sets a variable.
+
+    // Get the full response body as a string.
+    var jwtToken = response.body;
+
+    // Check if the response is successful (e.g., 200 OK).
+    if (response.status === 200) {
+        // Set a variable named 'jwtToken' in the global environment
+        // This variable can then be used in subsequent requests as {{jwtToken}}
+        client.global.set("jwtToken", jwtToken);
+        client.log("JWT token saved to global variable 'jwtToken': " + jwtToken);
+    } else {
+        client.log("Failed to get JWT. Status: " + response.status);
+    }
+%}
+
+
+### Get All Categories (assuming it's publicly accessible or needs auth, adjust WebSecurityConfig if needed)
+# If this endpoint is secured, you'd add: Authorization: Bearer {{jwtToken}}
+GET http://localhost:8080/api/category
+Content-Type: application/json
+
+### Create a Category (if not pre-populated, assuming it's publicly accessible or needs auth)
+# If this endpoint is secured, you'd add: Authorization: Bearer {{jwtToken}}
+POST http://localhost:8080/api/category
+Content-Type: application/json
+
+{
+  "name": "Groceries"
+}
+
+
+### Create a New Expense (Requires JWT)
+# Replace {{jwtToken}} with your actual JWT.
+# Replace {{categoryId}} with an ID of an existing category (e.g., 1 for Groceries).
+POST http://localhost:8080/api/expense
+Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
+
+{
+  "title": "Weekly Grocery Run",
+  "amount": 75.50,
+  "expenseDate": "2025-07-25",
+  "description": "Milk, bread, veggies, fruits",
+  "categoryId": 1
+}
+
+### Get All Expenses for Current User (Requires JWT)
+# Replace {{jwtToken}} with your actual JWT.
+GET http://localhost:8080/api/expense
+Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
+
+### Get a Specific Expense by ID for Current User (Requires JWT)
+# Replace {{jwtToken}} with your actual JWT.
+# Replace {{expenseId}} with an actual ID from a created expense (e.g., from the POST response above).
+GET http://localhost:8080/api/expense/1
+Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
+
+### Get Expenses by Category Name for Current User (Requires JWT)
+# Replace {{jwtToken}} with your actual JWT.
+# Replace `name` in the query parameter with an existing category name (e.g., "Leisure").
+GET http://localhost:8080/api/expense/by-category?name=Leisure
+Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
+
+### Search Expenses by Term for Current User (Requires JWT)
+# Replace {{jwtToken}} with your actual JWT.
+# Replace `term` in the query parameter with a search term (e.g., "Milk").
+GET http://localhost:8080/api/expense/search?term=Grocery
+Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
+
+### Update an Existing Expense for Current User (Requires JWT)
+# Replace {{jwtToken}} with your actual JWT.
+# Replace {{expenseId}} with an actual ID of an expense owned by the current user.
+# Ensure the categoryId is valid.
+PUT http://localhost:8080/api/expense/1
+Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
+
+{
+  "title": "Updated Grocery Bill",
+  "amount": 80.75,
+  "expenseDate": "2025-07-26",
+  "description": "Updated description for groceries",
+  "categoryId": 1
+}
+
+### Delete an Expense for Current User (Requires JWT)
+# Replace {{jwtToken}} with your actual JWT.
+# Replace {{expenseId}} with an actual ID of an expense owned by the current user.
+DELETE http://localhost:8080/api/expense/1
+Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
