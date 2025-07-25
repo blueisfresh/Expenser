@@ -5,6 +5,7 @@ import com.blueisfresh.expenser.entity.Expense;
 import com.blueisfresh.expenser.exception.ResourceNotFoundException;
 import com.blueisfresh.expenser.repository.ExpenseRepository;
 import com.blueisfresh.expenser.service.ExpenseService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,13 +46,13 @@ public class ExpenseController {
     }
 
     @PostMapping
-    public ResponseEntity<Expense> createExpense(@RequestBody expenseCreateDto expenseCreateDtoRequest) {
+    public ResponseEntity<Expense> createExpense(@Valid @RequestBody expenseCreateDto expenseCreateDtoRequest) {
         Expense createdExpense = expenseService.createExpense(expenseCreateDtoRequest);
         return new ResponseEntity<>(createdExpense, HttpStatus.CREATED); // return http created
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Expense> updateExpense(@PathVariable("id") long id, @RequestBody expenseCreateDto expenseUpdateDtoRequest) {
+    public ResponseEntity<Expense> updateExpense(@Valid @PathVariable("id") long id, @RequestBody expenseCreateDto expenseUpdateDtoRequest) {
         Expense updatedExpense = expenseService.updateExpense(id, expenseUpdateDtoRequest);
         return new ResponseEntity<>(updatedExpense, HttpStatus.OK);
     }

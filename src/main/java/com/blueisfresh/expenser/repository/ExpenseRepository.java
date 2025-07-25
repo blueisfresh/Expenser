@@ -11,12 +11,11 @@ import java.util.List;
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     // Crud Operations generated
 
-    @Query("SELECT b FROM Expense b WHERE " +
-            "LOWER(b.title) LIKE LOWER(CONCAT('%', :term, '%')) OR " +
-            "LOWER(b.amount) LIKE LOWER(CONCAT('%', :term, '%')) OR " +
-            "LOWER(b.description) LIKE LOWER(CONCAT('%', :term, '%')) OR " +
-            "LOWER(b.expenseDate) LIKE LOWER(CONCAT('%', :term, '%'))"
-    )
+    @Query("SELECT e FROM Expense e WHERE " +
+            "LOWER(e.title) LIKE LOWER(CONCAT('%', :term, '%')) OR " +
+            "LOWER(CAST(e.amount AS string)) LIKE LOWER(CONCAT('%', :term, '%')) OR " +
+            "LOWER(e.description) LIKE LOWER(CONCAT('%', :term, '%')) OR " +
+            "LOWER(CAST(e.expenseDate AS string)) LIKE LOWER(CONCAT('%', :term, '%'))")
     List<Expense> findExpensesBySearchTerm(@Param("term") String term);
 
     List<Expense> findByUserId(Long id);

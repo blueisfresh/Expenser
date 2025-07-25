@@ -49,6 +49,6 @@ public class CategoryService {
 
     // Search Term
     public List<Category> searchCategories(String searchTerm) {
-        return categoryRepository.findCategoriesBySearchTermBy(searchTerm);
+        return categoryRepository.findByNameContainingIgnoreCase(searchTerm);
     }
 }

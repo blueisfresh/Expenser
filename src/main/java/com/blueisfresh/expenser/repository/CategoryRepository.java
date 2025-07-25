@@ -9,8 +9,10 @@ import java.util.List;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     // Crud automatically generated
-    // Custom Search Term Method
-    @Query("SELECT b FROM Category b WHERE " +
-            "LOWER(b.name) LIKE LOWER(CONCAT('%', :term, '%'))")
-    List<Category> findCategoriesBySearchTermBy(@Param("term") String term);
+//    @Query("SELECT b FROM Category b WHERE " +
+//            "LOWER(b.name) LIKE LOWER(CONCAT('%', :term, '%'))")
+//    List<Category> findCategoriesBySearchTermBy(@Param("term") String term);
+
+    // search Method
+    List<Category> findByNameContainingIgnoreCase(String name);
 }
