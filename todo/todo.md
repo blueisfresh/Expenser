@@ -1,2 +1,1 @@
-- Expense Controller
 - auth /me endpoint to get all user information
